@@ -4,10 +4,17 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-# Get a free key at https://spoonacular.com/food-api/console#Dashboard
-# On Render: Dashboard -> your service -> Environment -> add SPOONACULAR_API_KEY
-API_KEY = os.environ.get("c087b5e6e76c4afe9db832f136fcde57
-")
+# ============================================================
+# IMPORTANT: DO NOT put your actual API key on the line below.
+# Leave it exactly as "SPOONACULAR_API_KEY" (a string literal).
+# Your real key goes ONLY in Render's dashboard:
+#   Render -> your service -> Environment -> Add Environment Variable
+#   Key:   SPOONACULAR_API_KEY
+#   Value: <your actual key, e.g. c087b5e6e76c4afe9db832f136fcde57>
+# This line just reads whatever value Render has stored there.
+# ============================================================
+API_KEY = os.environ.get("SPOONACULAR_API_KEY")
+
 BASE_URL = "https://api.spoonacular.com/recipes"
 
 
@@ -61,7 +68,9 @@ def home():
         search_query = request.form.get("ingredient", "").strip()
 
         if not API_KEY:
-            error = "Server is missing SPOONACULAR_API_KEY — set it in your environment."
+            # This means Render's Environment tab is missing SPOONACULAR_API_KEY,
+            # or it hasn't redeployed since you added it.
+            error = "Server is missing SPOONACULAR_API_KEY — set it in Render's Environment tab."
         elif search_query:
             try:
                 results = search_recipes(search_query)
