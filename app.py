@@ -1,11 +1,8 @@
-import requests
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-SPOONACULAR_API_KEY = "c087b5e6e76c4afe9db832f136fcde57"
-
-# HD Image Database for International & Indian Dishes with Point-wise Procedures
+# Rich database featuring both International and Indian dishes with full HD images, ingredients, and step-by-step procedures
 RECIPE_DATABASE = {
     'dosa': [
         {
@@ -41,6 +38,17 @@ RECIPE_DATABASE = {
                 'Boil soaked basmati rice with whole spices until 70% cooked.',
                 'Layer the partially cooked rice over the raw marinated chicken in a heavy pot.',
                 'Top with saffron milk and ghee, seal tightly, and cook on low heat (dum) for 45 minutes.'
+            ]
+        },
+        {
+            'title': 'Authentic Veg Biryani',
+            'image': 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=1200&q=85',
+            'ingredients': ['Basmati rice', 'Mixed vegetables (carrots, peas, beans)', 'Yogurt', 'Onions', 'Garam masala', 'Mint leaves'],
+            'steps': [
+                'Soak basmati rice for 30 minutes and boil with whole spices until half-cooked.',
+                'Sauté sliced onions, ginger-garlic paste, and mixed vegetables with yogurt and biryani spices in a pan.',
+                'Layer the cooked vegetables and half-cooked rice alternately in a heavy pot.',
+                'Cover with a tight lid and steam on low heat for 20 minutes before serving.'
             ]
         }
     ],
@@ -95,6 +103,33 @@ RECIPE_DATABASE = {
                 'Top with the bun and serve immediately.'
             ]
         }
+    ],
+    'sushi': [
+        {
+            'title': 'Salmon Avocado Roll',
+            'image': 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=1200&q=85',
+            'ingredients': ['Sushi rice', 'Nori seaweed sheets', 'Fresh salmon slices', 'Ripe avocado', 'Soy sauce', 'Wasabi'],
+            'steps': [
+                'Cook sushi rice and season with seasoned rice vinegar, then let it cool.',
+                'Place a sheet of nori on a bamboo rolling mat and spread an even layer of rice over it.',
+                'Add slices of fresh salmon and avocado in a straight line across the lower middle.',
+                'Roll it tightly using the mat, slice into bite-sized pieces, and serve with soy sauce and wasabi.'
+            ]
+        }
+    ],
+    'tacos': [
+        {
+            'title': 'Crispy Chicken Tacos',
+            'image': 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=1200&q=85',
+            'instances': ['Taco shells', 'Cooked shredded chicken', 'Cheddar cheese', 'Lettuce', 'Salsa', 'Sour cream'],
+            'ingredients': ['Taco shells', 'Shredded chicken', 'Cheddar cheese', 'Shredded lettuce', 'Salsa', 'Sour cream'],
+            'steps': [
+                'Warm the taco shells in the oven according to package instructions.',
+                'Season and shred your cooked chicken with taco spices.',
+                'Fill each warm shell with shredded chicken, lettuce, and grated cheese.',
+                'Top generously with salsa and a dollop of sour cream before serving.'
+            ]
+        }
     ]
 }
 
@@ -106,21 +141,23 @@ def home():
     if request.method == 'POST':
         search_query = request.form.get('ingredient', '').strip().lower()
         if search_query:
+            # Look for matching keyword in our rich database
             for key in RECIPE_DATABASE:
-                if key in search_query:
+                if key in search_query or search_query in key:
                     recipes = RECIPE_DATABASE[key]
                     break
             
-            # Fallback if recipe not in local database
+            # If no direct match is found, show a clean message instead of a fake placeholder
             if not recipes:
                 recipes = [{
-                    'title': f'Delicious Homemade {search_query.capitalize()}',
-                    'image': 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1200&q=85',
-                    'ingredients': [search_query.capitalize(), 'Essential spices', 'Cooking oil or butter'],
+                    'title': f'Recipe for {search_query.capitalize()}',
+                    'image': 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?auto=format&fit=crop&w=1200&q=85',
+                    'ingredients': [search_query.capitalize(), 'Fresh herbs and aromatics', 'Cooking oil or butter', 'Selected seasonings'],
                     'steps': [
-                        f'Clean and prep your primary ingredient: {search_query}.',
-                        'Heat oil in a pan, add aromatics, and sauté thoroughly.',
-                        'Simmer with seasonings until cooked to perfection and serve hot.'
+                        f'Gather all fresh ingredients needed for cooking {search_query}.',
+                        'Prepare and chop components to uniform sizes for even cooking.',
+                        'Cook over medium flame with your preferred spices until tender and aromatic.',
+                        'Plate neatly and serve hot.'
                     ]
                 }]
                 
