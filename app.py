@@ -5,8 +5,7 @@ from flask import Flask, render_template, request
 app = Flask(__name__)
 
 # REPLACE THIS WITH YOUR ACTUAL SPOONACULAR API KEY
-SPOONACULAR_API_KEY = "c087b5e6e76c4afe9db832f136fcde57
-"
+SPOONACULAR_API_KEY = "c087b5e6e76c4afe9db832f136fcde57"
 
 # Custom dictionary for Indian dishes to ensure they always load properly
 INDIAN_DISHES = {
