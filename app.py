@@ -2,7 +2,6 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-# Complete, tailored database with correct ingredients and procedures for baking, international, and Indian dishes
 RECIPE_DATABASE = {
     'banana cake': [
         {
@@ -24,7 +23,7 @@ RECIPE_DATABASE = {
             'ingredients': ['All-purpose flour', 'Warm milk', 'Sugar', 'Yeast or baking powder', 'Butter', 'Vanilla', 'Glaze (sugar and milk)'],
             'steps': [
                 'Mix warm milk, sugar, and yeast/baking powder, then combine with flour and melted butter to knead into a soft dough.',
-                'Let the dough rise, then roll it out and cut into donut shapes using a cutter or glass and cap.',
+                'Let the dough rise, then roll it out and cut into donut shapes using a cutter or glass.',
                 'Lightly brush the donuts with oil or butter and place them in your air fryer.',
                 'Air fry at 180°C for 6-8 minutes until golden, then dip them in a sweet milk glaze.'
             ]
@@ -39,7 +38,7 @@ RECIPE_DATABASE = {
                 'Finely chop onions and sauté them in a pan with green chilies and dry spices until soft and golden.',
                 'Cut your boiled eggs in half lengthwise.',
                 'Roll out your pastry dough into squares, place a spoonful of onion masala and a half-egg in the center.',
-                'Seal the edges tightly into a triangle or rectangle and air bake until golden and flaky.'
+                'Seal the edges tightly and air bake until golden and flaky.'
             ]
         }
     ],
@@ -68,19 +67,6 @@ RECIPE_DATABASE = {
                 'Top with saffron milk and ghee, seal tightly, and cook on low heat (dum) for 45 minutes.'
             ]
         }
-    ],
-    'pasta': [
-        {
-            'title': 'Creamy White Sauce Pasta',
-            'image': 'https://images.unsplash.com/photo-1621996346565-e3d5d6281297?auto=format&fit=crop&w=1200&q=85',
-            'ingredients': ['Penne pasta', 'Butter', 'All-purpose flour', 'Milk', 'Garlic', 'Mozzarella cheese', 'Oregano', 'Chili flakes'],
-            'steps': [
-                'Boil penne pasta in salted water until al dente, then drain.',
-                'Melt butter in a pan, add minced garlic, and stir in flour to create a paste.',
-                'Slowly whisk in milk continuously, cooking until the sauce thickens.',
-                'Melt cheese into the sauce, toss in the pasta, season with oregano and chili flakes, and serve.'
-            ]
-        }
     ]
 }
 
@@ -92,22 +78,20 @@ def home():
     if request.method == 'POST':
         search_query = request.form.get('ingredient', '').strip().lower()
         if search_query:
-            # Search through the specific recipe database keys
             for key in RECIPE_DATABASE:
                 if key in search_query or search_query in key:
                     recipes = RECIPE_DATABASE[key]
                     break
             
-            # If a custom item is searched that isn't hardcoded, give a proper specific baking/cooking layout instead of fake herbs
             if not recipes:
                 recipes = [{
-                    'title': f'Homemade {search_query.capitalize()}',
+                    'title': f'Recipe for {search_query.capitalize()}',
                     'image': 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=1200&q=85',
-                    'ingredients': [search_query.capitalize(), 'Primary base ingredients (flour/sugar/butter or proteins)', 'Binding agents & seasonings'],
+                    'ingredients': ['Main ingredients for ' + search_query, 'Required spices or seasonings', 'Cooking oil or butter'],
                     'steps': [
-                        f'Prepare and measure all components needed for your {search_query}.',
-                        'Mix or assemble the ingredients according to standard baking or cooking proportions.',
-                        'Bake or cook at the recommended temperature until fully done, cool slightly, and enjoy!'
+                        f'Prepare all components required for {search_query}.',
+                        'Cook or bake using standard proportions until done.',
+                        'Serve hot and enjoy!'
                     ]
                 }]
                 
