@@ -11,7 +11,7 @@ def home():
     if request.method == 'POST':
         search_query = request.form.get('ingredient', '').strip().lower()
         if search_query:
-            url = f"https://www.themealdb.com/api/json/v1/1/filter.php?i={search_query}"
+            url = f"https://www.themealdb.com/api/json/v1/1/search.php?s={search_query}"
             try:
                 response = requests.get(url, timeout=5)
                 data = response.json()
