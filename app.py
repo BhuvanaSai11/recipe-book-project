@@ -5,8 +5,7 @@ from flask import Flask, render_template, request
 app = Flask(__name__)
 
 # Replace with your actual Spoonacular API key
-SPOONACULAR_API_KEY = "YOUR_COPIED_KEY_HERE"
-
+SPOONACULAR_API_KEY = "paste_your_real_key_here"
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
