@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ recipe.strMeal }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; max-width: 700px; margin: auto; color: #333; }
+        img { width: 100%; border-radius: 8px; }
+        .back-btn { display: inline-block; margin-bottom: 15px; text-decoration: none; color: #28a745; font-weight: bold; }
+        ul { background: white; padding: 20px 40px; border-radius: 8px; }
+        .instructions { background: white; padding: 20px; border-radius: 8px; line-height: 1.6; text-align: left; }
+    </style>
+</head>
+<body>
+
+    <a href="/" class="back-btn">&larr; Back to Search</a>
+
+    {% if recipe %}
+        <h1>{{ recipe.strMeal }}</h1>
+        <img src="{{ recipe.strMealThumb }}" alt="{{ recipe.strMeal }}">
+        
+        <h2>Ingredients</h2>
+        <ul>
+            {% for item in ingredients %}
+                <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Instructions</h2>
+        <div class="instructions">
+            <p>{{ recipe.strInstructions }}</p>
+        </div>
+    {% else %}
+        <p>Recipe details not found.</p>
+    {% endif %}
+
+</body>
+</html>
